@@ -123,7 +123,6 @@ class ASRTrainer(TrainerBase):
             sampler=DistributedSampler(train_dataset, shuffle=True),
             batch_size=self.args.per_device_train_batch_size,
         )
-
         # speech adaptor  
         from seamless_communication.models.unit_extraction.wav2vec2_layer_output import load_wav2vec2_model, Wav2Vec2LayerOutputModel
         wav2vec2_model = load_wav2vec2_model(
@@ -237,7 +236,6 @@ class ASRTrainer(TrainerBase):
     def train(self) -> None:
         """Train the model."""
         self.logger.print('***** Running training *****')
-
         progress_bar = tqdm(
             total=self.args.epochs * len(self.train_dataloader),
             desc=f'Training 1/{self.args.epochs} epoch',
@@ -245,14 +243,9 @@ class ASRTrainer(TrainerBase):
             leave=True,
             disable=not is_main_process(),
         )
-
-        if self.args.need_eval:
-            self.logger.print('\n***** Evaluating at the beginning *****')
-            self.logger.log(self.eval(), step=0)
         
         for epoch in range(self.args.epochs):
             self.model.train()
-
             for batch in self.train_dataloader:
                 speech_feat = self.speech_encoder(SequenceBatch(
                     seqs=batch['input'].to(self.args.device).to(torch.float32), 

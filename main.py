@@ -273,7 +273,6 @@ def main() -> None:
     args = parse_arguments()
 
     deepspeed.init_distributed()
-
     args.global_rank = dist.get_rank()
     args.device = torch.device('cuda', args.local_rank)
     torch.cuda.set_device(args.device)
@@ -291,6 +290,13 @@ def main() -> None:
     )
 
     trainer = ASRTrainer(args, ds_config)
+    for name, param in trainer.speech_encoder.named_parameters():
+        if param.requires_grad == True:
+            print(name,param.requires_grad)
+
+    for name, param in trainer.model.named_parameters():
+        if param.requires_grad == True:
+            print(name,param.requires_grad)
     trainer.train()
     trainer.save()
 
