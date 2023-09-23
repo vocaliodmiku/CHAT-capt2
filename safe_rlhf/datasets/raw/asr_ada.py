@@ -67,7 +67,8 @@ class ASRADADataset(Dataset):
             data_file = os.path.join(data_path[0][0], "train_manifest.json")
         else:
             # data_file = os.path.join(data_path[0][0], "train_manifest.json")
-            data_file = "dev_manifest.json"
+            data_file = os.path.join(data_path[0][0], "dev_manifest.json")
+            #data_file = "dev_manifest.json"
         self.ann = {}
         self.utts = {}
         idx = 0
@@ -91,7 +92,7 @@ class ASRADADataset(Dataset):
         ann = self.ann[index]
         ASR_PRMPT = random.choice(PROMPTS_ASR)
         pre_msg = PROMPT_TEMPLATE
-        pre_msg.format_map({'instruction':ASR_PRMPT})
+        pre_msg = pre_msg.format_map({'instruction':ASR_PRMPT})
         pre_msg += " <SEP> "
         post_msg = " <SEP> " + ann['target']['text']
         pre_tok, post_tok = self.tokenizer.encode(pre_msg), self.tokenizer.encode(post_msg)
