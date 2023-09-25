@@ -93,7 +93,7 @@ def parse_arguments() -> argparse.Namespace:
     training_parser.add_argument(
         '--per_device_eval_batch_size',
         type=int,
-        default=16,
+        default=1,
         help='Batch size (per device) for the evaluation dataloader.',
     )
     training_parser.add_argument(
@@ -110,7 +110,7 @@ def parse_arguments() -> argparse.Namespace:
     training_parser.add_argument(
         '--learning_rate',
         type=float,
-        default=2e-5,
+        default=2e-4,
         help='Initial learning rate (after the potential warmup period) to use.',
     )
     training_parser.add_argument(

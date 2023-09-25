@@ -266,6 +266,11 @@ class ASRTrainer(TrainerBase):
                 )
                 progress_bar.update(1)
 
+                if self.global_step % 4000 == 0:
+                    if self.args.need_eval:
+                        self.logger.print('\n***** Evaluating at the beginning *****')
+                        self.logger.log(self.eval(), step=0)
+
                 # progress_bar.set_description(
                 #     f'Training {epoch + 1}/{self.args.epochs} epoch (loss {info["train/loss"]:.4f})',
                 # )

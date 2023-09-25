@@ -357,6 +357,16 @@ def load_pretrained_models_for_speech(
             param.requires_grad = False
     for param in model.model.embed_tokens.parameters():
         param.requires_grad = False
+
+    for param in model.model.embed_tokens.parameters():
+        param.requires_grad = False
+    
+    for param in model.lm_head.parameters():
+        param.requires_grad = False
+
+    for param in model.model.norm.parameters():
+        param.requires_grad = False
+    
         
     #  check_frozen_layers 
     for i, layer in enumerate(model.model.layers):
